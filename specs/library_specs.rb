@@ -1,28 +1,7 @@
-# Homework Extension: (for those of you who REALLY want extra homework)
-# Model a Library as a class.
-#
-# Create a class for a Library that has an array of books. Each book should be a hash with a title,
-# which is a string, and rental details, which is another hash with a student name and due date.
-# This should look something like:
-#
-#   {
-#     title: "lord_of_the_rings",
-#     rental_details: {
-#      student_name: "Jeff",
-#      date: "01/12/16"
-#     }
-#   }
-# Create a getter for the books
-# Create a method that takes in a book title and returns all of the information about that book.
-# Create a method that takes in a book title and returns only the rental details for that book.
-# Create a method that takes in a book title and adds it to our book list
-# (add a new hash for the book with the student name and date being left as empty strings)
-# Create a method that changes the rental details of a book by taking in the title of the book,
-# the student renting it and the date it's due to be returned.
-
 require('minitest/autorun')
 require ('minitest/rg')
 require_relative('../library.rb')
+
 
 class LibraryTest < MiniTest::Test
 
@@ -50,9 +29,22 @@ class LibraryTest < MiniTest::Test
       }
     }
 
-  @books = [@book1, @book2, @book3]
+    @books = [@book1, @book2, @book3]
+
+    @book_to_be_added = {
+      title: "wind_in_the_willows",
+      rental_details: {}
+    }
+    @amended_book3 = {
+      title: "hitchhikers_guide_to_the_galaxy",
+      rental_details: {
+        student_name: "John",
+        date: "31/12/18"
+      }
+    }
 
   end
+
 
   def test_get_books
     library = Library.new(@books)
@@ -61,9 +53,24 @@ class LibraryTest < MiniTest::Test
 
   def test_get_book_from_title
     library = Library.new(@books)
-    assert_equal(@book1, library.get_book_by_title("lord_of_the_rings"))
-    #assert_equal("lord_of_the_rings", Library.books[1][:title])
+    assert_equal(@book1, library.get_book_from_title("lord_of_the_rings"))
   end
 
+  def test_get_rental_details_from_title
+    library = Library.new(@books)
+    assert_equal(@book2[:rental_details], library.get_rental_details_from_title("harry_potter"))
+  end
+
+  def test_add_new_book
+    library = Library.new(@books)
+    library.add_new_book("wind_in_the_willows")
+    assert_equal(@book_to_be_added, library.books[3])
+  end
+
+  def test_change_rental_details
+    library = Library.new(@books)
+    library.change_rental_details("hitchhikers_guide_to_the_galaxy", "John", "31/12/18")
+    assert_equal(@amended_book3, library.books[2])
+  end
 
 end
