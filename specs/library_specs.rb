@@ -28,35 +28,41 @@ class LibraryTest < MiniTest::Test
 
   def setup
 
-  @books = [
-    {
+    @book1 = {
       title: "lord_of_the_rings",
       rental_details: {
         student_name: "Jeff",
         date: "01/12/18"
       }
-    },
-    {
+    }
+    @book2 = {
       title: "harry_potter",
       rental_details: {
         student_name: "Jeff",
         date: "01/12/18"
       }
-    },
-    {
+    }
+    @book3 = {
       title: "hitchhikers_guide_to_the_galaxy",
       rental_details: {
         student_name: "Jim",
         date: "31/11/18"
       }
     }
-  ]
+
+  @books = [@book1, @book2, @book3]
 
   end
 
-  def test_get_book
+  def test_get_books
     library = Library.new(@books)
-    assert_equal("lord_of_the_rings", Library.books[1][:title])
+    assert_equal(@books, library.books)
+  end
+
+  def test_get_book_from_title
+    library = Library.new(@books)
+    assert_equal(@book1, library.get_book_by_title("lord_of_the_rings"))
+    #assert_equal("lord_of_the_rings", Library.books[1][:title])
   end
 
 
